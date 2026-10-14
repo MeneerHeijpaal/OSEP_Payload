@@ -13,7 +13,7 @@ Go to the source of the folder containing all the files and run this.
 
 ```bash
 # grep -rli 'ÇURRENT IP' * | xargs -i@ sed -i 's/ ÇURRENT IP/NEW IP/g' @
-grep -rli '192.168.45.147' * | xargs -i@ sed -i 's/192.168.45.147/192.168.11.22/g' @
+grep -rli '192.168.49.147' * | xargs -i@ sed -i 's/192.168.49.147/192.168.11.22/g' @
 ```
 
 ---
@@ -89,7 +89,7 @@ Copy the resulting `byte[] encryptedShellcode` array of each converted shellcode
 
 ### **Phase 5: Receive Shell**
 
-[[64-bit Staged Receivers]]
+#### 64-bit Staged Receivers
 
 1.  This the code:
 ```text
@@ -124,7 +124,7 @@ exploit -j
 ```
 
 
-[[32-bit Staged Receivers]]
+#### 32-bit Staged Receivers
 
 1.  This the code:
 ```text
@@ -167,15 +167,15 @@ If you see the error: *"Script.ps1 cannot be loaded because running scripts is d
 CLM is common when AppLocker is enabled. It restricts access to the .NET Reflection API (`[Assembly]::Load`), which breaks [[run.ps1]].
 *   **The Identification:** Run `$ExecutionContext.SessionState.LanguageMode` in PowerShell. If it says `ConstrainedLanguage`, your reflective load will fail.
 *   **The Solution:** Use a **Custom C# Runspace**. 
-    1. Instead of starting the attack with a `.ps1` script, use a compiled `.exe` (like the [[BypassExe.cs]])  or use a CLM Bypass ([[CLM]])
-    2. Check the Certutil on how to do the attack. ([[Certutil]])
+    1. Instead of starting the attack with a `.ps1` script, use a compiled `.exe` (like the [[BypassExe.cs]])  or use a CLM Bypass
+    2. 2. Check the Certutil file on how to do the attack. ([[Certutil.md]])
     3. These runners host the PowerShell engine inside a C# process, which defaults to `FullLanguage` mode regardless of system-wide AppLocker policies.
     4. Use the Uninstall Method for the implementation details.
 
 ---
 
 ## 4. Technical Deep Dive: Process Hollowing
-The [[HollowDLL.cs]] payload performs the following sequence:
+The [[HollowDLLx64.cs]] payload performs the following sequence:
 1.  **Suspended Spawn:** It calls `CreateProcess` with flag `0x4` to start `svchost.exe` but pauses it before the first instruction.
 2.  **PEB Parsing:** It uses `ZwQueryInformationProcess` to find the **Process Environment Block (PEB)**. It then reads the PEB to find the `ImageBaseAddress`.
 3.  **PE Header Resolution:** It parses the Image Base to find the **AddressOfEntryPoint** RVA (Relative Virtual Address).
